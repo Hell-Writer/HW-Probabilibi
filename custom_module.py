@@ -40,27 +40,6 @@ def t_bootstrap(arr, alpha, n_bootstraps):
     lcrit = avg - tstats[int(round(right_percentile*n_bootstraps))]*stdev
     return (lcrit, rcrit)
 
-def t_bootstrap_2(arr1, arr2, alpha, n_bootstraps):
-    '''Вычисляет критические значения бутстрепа матожидания разницы двух выборок'''
-    right_percentile = 1-alpha/2
-    left_percentile = alpha/2
-    size1 = len(arr1)
-    size2 = len(arr2)
-    avg = sum(arr1)/size1 - sum(arr2)/size2
-    stdev = np.sqrt(np.var(arr1) + np.var(arr2))
-    tstats = []
-    bootstraped_data_1 = np.random.choice(arr1, size1*n_bootstraps)
-    bootstraped_data_2 = np.random.choice(arr2, size2*n_bootstraps)
-    for i in range(n_bootstraps):
-        avgest = sum(bootstraped_data_1[size*i:size*(i+1)])/size1 - sum(bootstraped_data_2[size*i:size*(i+1)])/size2
-        stderr = stdev
-        val = (avgest-avg)/stderr
-        tstats.append(val)
-    tstats = sorted(tstats)
-    rcrit = avg - tstats[int(round(left_percentile*n_bootstraps))]*stdev
-    lcrit = avg - tstats[int(round(right_percentile*n_bootstraps))]*stdev
-    return (lcrit, rcrit)
-
 
 def t_bootstrap_2_pvalue(arr1, arr2, n_bootstraps):
     '''Вычисляет pvalue бутстрепа матожидания разницы двух выборок'''
@@ -93,11 +72,7 @@ def means_dif(sample1, sample2, axis=None):
 
 def od_ratio(sample):
     cnt = Counter(sample)
-    return (arr[0]*arr[3])/(arr[1]*arr[2])
-
-
-def corrcoef_with_axis(arr1, arr2, axis=None):
-    return np.corrcoef(arr1, arr2)
+    return (cnt[0]*cnt[3])/(cnt[1]*cnt[2])
 
 
 def ci_maker_kd(dist, sigma, alpha):
